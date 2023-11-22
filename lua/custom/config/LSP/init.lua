@@ -1,7 +1,16 @@
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 --
-require('mason').setup()
+require('mason').setup({
+    opts = {
+        ensure_installed = {
+            "debugpy",
+            "pyright",
+            "ruff",
+            "ruff_lsp"
+        }
+    }
+})
 require('mason-lspconfig').setup()
 
 -- Enable the following language servers
@@ -17,8 +26,8 @@ local servers = {
     -- gopls = {},
     pyright = {},
     -- rust_analyzer = {},
-    -- tsserver = {},
-    -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+    tsserver = {},
+    html = { filetypes = { 'html', 'twig', 'hbs' } },
 
     lua_ls = {
         Lua = {

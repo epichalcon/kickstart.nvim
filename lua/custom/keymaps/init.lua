@@ -122,7 +122,7 @@ on_attach_lsp_keymaps = function(_, bufnr)
     nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
     nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
     nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+    nmap('<leader>fs', require('telescope.builtin').lsp_document_symbols, '[f]ile [S]ymbols')
     nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
     -- See `:help K` for why this keymap
@@ -142,3 +142,30 @@ on_attach_lsp_keymaps = function(_, bufnr)
         vim.lsp.buf.format()
     end, { desc = 'Format current buffer with LSP' })
 end
+
+
+local dap = require "dap"
+-- Basic debugging keymaps, feel free to change to your liking!
+vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Debug: Start/Continue' })
+vim.keymap.set('n', '<leader>di', dap.step_into, { desc = 'Debug: Step Into' })
+vim.keymap.set('n', '<leader>do', dap.step_over, { desc = 'Debug: Step Over' })
+vim.keymap.set('n', '<leader>du', dap.step_out, { desc = 'Debug: Step Out' })
+vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+vim.keymap.set('n', '<leader>B', function()
+    dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+end, { desc = 'Debug: Set Breakpoint' })
+
+
+
+-- document existing key chains
+local wk = require "which-key"
+
+wk.register({
+    ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+    ['<leader>d'] = { name = '[D]ebug', _ = 'which_key_ignore' },
+    ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
+    ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
+    ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+    ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+    ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+})
