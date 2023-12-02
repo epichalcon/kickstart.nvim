@@ -153,6 +153,7 @@ return {
             dashboard.section.buttons.val = {
                 dashboard.button("e", "  New file", "<cmd>ene <CR>"),
                 dashboard.button("f", "󰈞  Find file", ":cd $HOME/repos | Telescope find_files<CR>"),
+                dashboard.button("w", "󰊄  Find file in workspace", ":Telescope find_files<CR>"),
                 dashboard.button("r", "  Recently opened files", ":Telescope oldfiles<CR>"),
                 -- dashboard.button("SPC f  m", "  Jump to bookmarks"),
                 dashboard.button("s", "  Settings", ":e $MYVIMRC | :cd %:p:h | wincmd k | pwd<CR>"),

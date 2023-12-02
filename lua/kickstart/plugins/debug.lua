@@ -66,12 +66,19 @@ return {
         },
       }
 
-      -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-      vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
 
       dap.listeners.after.event_initialized['dapui_config'] = dapui.open
       dap.listeners.before.event_terminated['dapui_config'] = dapui.close
       dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+      dap.adapters.rust = {
+        type = "server",
+        port = "${port}",
+        executable = {
+          command = "~/.local/share/nvim/mason/packages/codelldb/extension/adapter/codelldb",
+          args = { "--port", "${port}" },
+        }
+      }
     end,
   },
   {
@@ -83,6 +90,7 @@ return {
     },
     config = function()
       local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
+      -- local path = "/usr/bin/python3"
       require "dap-python".setup(path)
     end,
   },

@@ -37,6 +37,7 @@ vim.keymap.set("v", "<a-k>", ":m '<-2<cr>gv=gv", { desc = "move up" })
 vim.keymap.set("n", "<s-h>", "<cmd>bprevious<cr>", { desc = "prev buffer" })
 vim.keymap.set("n", "<s-l>", "<cmd>bnext<cr>", { desc = "next buffer" })
 vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "switch to other buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "switch to other buffer" })
 
 -- save file
 vim.keymap.set({ "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
@@ -145,6 +146,7 @@ end
 
 
 local dap = require "dap"
+local dapui = require 'dapui'
 -- Basic debugging keymaps, feel free to change to your liking!
 vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Debug: Start/Continue' })
 vim.keymap.set('n', '<leader>di', dap.step_into, { desc = 'Debug: Step Into' })
@@ -154,6 +156,8 @@ vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle
 vim.keymap.set('n', '<leader>B', function()
     dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
 end, { desc = 'Debug: Set Breakpoint' })
+-- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
 
 
 

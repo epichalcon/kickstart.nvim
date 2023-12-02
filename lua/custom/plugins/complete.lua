@@ -1,3 +1,34 @@
+local kind_icons = {
+    Text = "",
+    Method = "󰆧",
+    Function = "󰊕",
+    Constructor = "",
+    Field = "󰇽",
+    Variable = "󰂡",
+    Class = "󰠱",
+    Interface = "",
+    Module = "",
+    Property = "󰜢",
+    Unit = "",
+    Value = "󰎠",
+    Enum = "",
+    Keyword = "󰌋",
+    Snippet = "",
+    Color = "󰏘",
+    File = "󰈙",
+    Reference = "",
+    Folder = "󰉋",
+    EnumMember = "",
+    Constant = "󰏿",
+    Struct = "",
+    Event = "",
+    Operator = "󰆕",
+    TypeParameter = "󰅲",
+}
+
+-- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
+local kind_mapper = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 }
+
 return {
     { 'rafamadriz/friendly-snippets' },
 
@@ -65,6 +96,46 @@ return {
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
                 },
+
+                formatting = {
+                    format = function(entry, vim_item)
+                        -- Kind icons
+                        vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+                        -- Source
+                        vim_item.menu = ({
+                            buffer = "[Buffer]",
+                            nvim_lsp = "[LSP]",
+                            luasnip = "[LuaSnip]",
+                            nvim_lua = "[Lua]",
+                            latex_symbols = "[LaTeX]",
+                        })[entry.source.name]
+                        return vim_item
+                    end
+                },
+                sorting = {
+                    priority_weight = 1.0,
+                    comparators = {
+                        function(entry1, entry2)
+                            local kind1 = kind_mapper[entry1:get_kind()]
+                            local kind2 = kind_mapper[entry2:get_kind()]
+                            if kind1 < kind2 then
+                                return true
+                            end
+                        end
+                    },
+                },
+
+                enabled = function()
+                    -- disable completion in comments
+                    local context = require 'cmp.config.context'
+                    -- keep command mode completion enabled when cursor is in a comment
+                    if vim.api.nvim_get_mode().mode == 'c' then
+                        return true
+                    else
+                        return not context.in_treesitter_capture("comment")
+                            and not context.in_syntax_group("Comment")
+                    end
+                end
             }
         end
 
