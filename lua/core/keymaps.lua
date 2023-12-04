@@ -37,7 +37,7 @@ vim.keymap.set("v", "<a-k>", ":m '<-2<cr>gv=gv", { desc = "move up" })
 vim.keymap.set("n", "<s-h>", "<cmd>bprevious<cr>", { desc = "prev buffer" })
 vim.keymap.set("n", "<s-l>", "<cmd>bnext<cr>", { desc = "next buffer" })
 vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "switch to other buffer" })
-vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "switch to other buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "delete current buffer" })
 
 -- save file
 vim.keymap.set({ "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
@@ -172,4 +172,6 @@ wk.register({
     ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
     ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
     ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+    ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
+    ['<leader>f'] = { name = '[F]ile', _ = 'which_key_ignore' },
 })
