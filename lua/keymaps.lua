@@ -11,13 +11,18 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>qf', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- Move to window using <ctrl> hjkl
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+-- vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
+-- vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
+-- vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
+-- vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+
+vim.keymap.set("n", "<C-h>", "<cmd> TmuxNavigateLeft<cr>", { desc = "Go to left window", remap = true })
+vim.keymap.set("n", "<C-l>", "<cmd> TmuxNavigateRight<cr>", { desc = "Go to right window", remap = true })
+vim.keymap.set("n", "<C-j>", "<cmd> TmuxNavigateDown<cr>", { desc = "Go to lower window", remap = true })
+vim.keymap.set("n", "<C-k>", "<cmd> TmuxNavigateUp<cr>", { desc = "Go to upper window", remap = true })
 
 -- resize window using <ctrl> arrow keys
 vim.keymap.set("n", "<c-up>", "<cmd>resize +2<cr>", { desc = "increase window height" })
@@ -33,6 +38,18 @@ vim.keymap.set("i", "<a-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "move up" })
 vim.keymap.set("v", "<a-j>", ":m '>+1<cr>gv=gv", { desc = "move down" })
 vim.keymap.set("v", "<a-k>", ":m '<-2<cr>gv=gv", { desc = "move up" })
 
+
+-- The primeagen keymaps https://www.youtube.com/watch?v=w7i4amO_zaE&t=1104s
+vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "<C-d>", "<C-d>zz");
+vim.keymap.set("n", "<C-u>", "<C-u>zz");
+
+
+vim.keymap.set("x", "<leader>p", "\"_dP");
+
+vim.keymap.set("n", "<leader>d", "\"_d");
+vim.keymap.set("v", "<leader>d", "\"_d");
+
 -- buffers
 vim.keymap.set("n", "<s-h>", "<cmd>bprevious<cr>", { desc = "prev buffer" })
 vim.keymap.set("n", "<s-l>", "<cmd>bnext<cr>", { desc = "next buffer" })
@@ -41,7 +58,7 @@ vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "delete current buffer
 
 -- save file
 vim.keymap.set({ "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
-vim.keymap.set({ "x", "n", "s" }, "<leader>ww", "<cmd>w<cr><esc>", { desc = "Save file" })
+vim.keymap.set({ "x", "n", "s" }, "<leader>ww", "<cmd>w<cr><esc>zz", { desc = "Save file" })
 
 -- better indenting
 vim.keymap.set("v", "<", "<gv")
@@ -103,46 +120,6 @@ vim.keymap.set('n', '<leader>gg', ':LazyGit<cr>', { desc = 'Open lazy git window
 
 
 
--- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
-on_attach_lsp_keymaps = function(_, bufnr)
-    -- In this case, we create a function that lets us more easily define mappings specific
-    -- for LSP related items. It sets the mode, buffer and description for us each time.
-    local nmap = function(keys, func, desc)
-        if desc then
-            desc = 'LSP: ' .. desc
-        end
-
-        vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-    end
-
-    nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-    nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
-    nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-    nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-    nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-    nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-    nmap('<leader>fs', require('telescope.builtin').lsp_document_symbols, '[f]ile [S]ymbols')
-    nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-    -- See `:help K` for why this keymap
-    nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-    nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-    -- Lesser used LSP functionality
-    nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-    nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-    nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-    nmap('<leader>wl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, '[W]orkspace [L]ist Folders')
-
-    -- Create a command `:Format` local to the LSP buffer
-    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-        vim.lsp.buf.format()
-    end, { desc = 'Format current buffer with LSP' })
-end
 
 
 local dap = require "dap"

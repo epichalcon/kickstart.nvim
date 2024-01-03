@@ -1,3 +1,5 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
@@ -20,7 +22,7 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 
-vim.opt.scrolloff = 15
+vim.opt.scrolloff = 8
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -58,3 +60,5 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+
+vim.opt.conceallevel = 1

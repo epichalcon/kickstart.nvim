@@ -1,3 +1,4 @@
+
 -- autoformat.lua
 --
 -- Use your language server to automatically format your code on save.
