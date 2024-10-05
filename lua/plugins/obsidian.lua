@@ -20,11 +20,7 @@ return {
         workspaces = {
             {
                 name = "personal",
-                path = "~/notes/Obsidian/my_vault",
-            },
-            {
-                name = "mitologia",
-                path = "~/notes/Obsidian/mitologia_griega",
+                path = "/mnt/c/Users/Nicolas/Documents/Obsidian/my_vault/",
             },
         },
 
