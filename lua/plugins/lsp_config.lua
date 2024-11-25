@@ -52,7 +52,6 @@ return {
                         "debugpy",
                         "pyright",
                         "ruff",
-                        "ruff_lsp",
                         "codelldb",
                     }
                 }
@@ -110,7 +109,6 @@ return {
                 },
 
 
-                tsserver = {},
                 html = { filetypes = { 'html', 'twig', 'hbs' } },
 
                 lua_ls = {
@@ -118,15 +116,6 @@ return {
                         workspace = { checkThirdParty = false },
                         telemetry = { enable = false },
                     },
-                },
-
-                ruff_lsp = {
-                    init_options = {
-                        settings = {
-                            -- Any extra CLI arguments for `ruff` go here.
-                            args = {},
-                        }
-                    }
                 },
             }
 
